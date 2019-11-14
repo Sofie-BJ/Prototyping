@@ -16,6 +16,8 @@ export default class App extends Component {
 
         <Text>tHEA KAN LIDE TE</Text>
 
+        <Text>Dette er ny linje - lad os teste det</Text>
+
       </View>
     );
   }
