@@ -12,11 +12,13 @@ import { createAppContainer } from 'react-navigation';
 
 //StackNavigator. Define screens and initialRouteName specifies start screen.
 const StackNavigator = createStackNavigator({
-    Home,
-    CreateRoute
-}, {
+    Home: Home,
+    CreateRoute: CreateRoute
+},
+ {
     initialRouteName: 'Home'
 });
+
 
 const AppContainer = createAppContainer(StackNavigator);
 
