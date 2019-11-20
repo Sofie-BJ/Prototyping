@@ -1,20 +1,26 @@
 import React from 'react';
 import MapView, {Marker} from 'react-native-maps';
-import {StyleSheet, Text, View, Dimensions} from 'react-native';
+import {StyleSheet, Text, View, Dimensions, Button} from 'react-native';
 
 import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
 import Menu from "../components/Menu";
+import CreatePopUp from "../components/CreatePopUp";
+import Route from "../Route";
 
 export default class Home extends React.Component {
 
+
     constructor(props) {
         super(props);
+        this.routes = [];
         this.state = {
             location: null,
             errorMessage: null,
             region: null,
-            marker: null
+            marker: null,
+            popUp: null,
+            routes: this.routes
         }
     }
 
@@ -63,21 +69,44 @@ export default class Home extends React.Component {
         }
     }
 
+    addRoute = (routeTitle) => {
+        this.routes.push(new Route(routeTitle));
+        this.setState({popUp: null})
+    };
+
+    cancelPopUp = () => {
+        this.setState({popUp: null})
+    }
+
+    createPopUp = () => {
+        this.setState({
+            popUp: new CreatePopUp()
+        });
+    };
+
     render() {
+        let popup = this.state.popUp;
+
         return (
             <View style={styles.container}>
+                <View>
+                    {this.state.region ?
+                        (<MapView
+                            style={styles.mapStyle}
+                            initialRegion={this.state.region}>
 
-                <Menu/>
+                            <Marker coordinate={this.state.marker.latlng} title="Home"/>
 
-                {this.state.region ?
-                    (<MapView
-                        style={styles.mapStyle}
-                        initialRegion={this.state.region}>
-
-                        <Marker coordinate={this.state.marker.latlng} title="Home"/>
-
-                    </MapView>) : <Text>Venter på mine koordinater...</Text>
-                }
+                        </MapView>) : <Text>Venter på mine koordinater...</Text>
+                    }
+                </View>
+                <View style={styles.menu}>
+                    <Menu routes={this.routes}/>
+                    <Button style={styles.button} onPress={this.createPopUp} title="Create Route"/>
+                    { popup ?
+                        (<CreatePopUp callback={this.addRoute} cancelPopUp={this.cancelPopUp}/>): null
+                    }
+                </View>
             </View>
         );
     }
@@ -100,5 +129,16 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textAlign: 'center'
     },
+    menu: {
+        position: 'absolute',
+        top: 24,
+        backgroundColor: 'red',
+        //alignSelf: 'flex-end',
+        flex: 1
+    },
+    routes: {
+        backgroundColor: 'black'
+    }
+
 
 });

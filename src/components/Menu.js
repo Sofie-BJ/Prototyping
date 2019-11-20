@@ -3,43 +3,26 @@ import {StyleSheet, Text, View, Button, TouchableOpacity} from 'react-native';
 
 import CreatePopUp from "./CreatePopUp";
 import Route from "../Route";
+import StyleSheetPropType from "react-native-web/dist/modules/StyleSheetPropType";
 
 export default class Menu extends React.Component {
+
+    id = 0;
 
     constructor(props) {
         super(props);
         this.state = {
-            popUpVisible: null
+            routes: this.props.routes
         };
 
-        this.routes = [];
     }
 
-    showDialog = () => {
-        this.setState({
-            popUpVisible: new CreatePopUp()
-        });
-    };
-
-    getRoutes = () => {
-        return this.routes;
-    };
-
-    getRouteTitle = (routeTitle) => {
-        let newRoute = new Route(routeTitle);
-        this.routes.push(newRoute);
-    };
-
     render() {
-
-        let popup = this.state.popUpVisible;
-
         return (
             <View style={styles.container}>
-                <Button onPress={this.showDialog} title="Create Route"/>
-                { popup ?
-                    (<CreatePopUp visible={popup.getVisible()} callback={this.getRouteTitle}/>): null
-                }
+                {this.state.routes.map(route =>
+                    (<Route key={0} title={route.title}/>)
+                )}
             </View>
         )
     }
@@ -47,10 +30,8 @@ export default class Menu extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        position: 'absolute',
-        alignSelf: 'flex-end',
+        backgroundColor: 'black',
         top: 24,
-        backgroundColor: 'black'
-
-    }
+    },
 });
+
