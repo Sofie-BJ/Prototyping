@@ -10,7 +10,6 @@ export default class Home extends Component {
         };
     }
     render() {
-        const { params } = this.props.navigation.state;
         return (
             <View>
                 <Text> {'Velkommen til zonen ved '} </Text>

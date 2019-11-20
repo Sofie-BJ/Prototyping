@@ -1,9 +1,11 @@
 import React from 'react';
-import MapView from 'react-native-maps';
+import MapView, {Marker} from 'react-native-maps';
 import {StyleSheet, Text, View, Dimensions} from 'react-native';
 
 import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
+import Menu from "../components/Menu";
+import {Button} from "react-native-web";
 
 export default class Home extends React.Component {
 
@@ -16,6 +18,8 @@ export default class Home extends React.Component {
             marker: null
         }
     }
+
+    //static navigationOptions = {header: null};
 
     async componentDidMount() {
         await this.AskPermission();
@@ -36,6 +40,9 @@ export default class Home extends React.Component {
                     latitudeDelta: 0.075,
                     longitudeDelta: 0.075
                 },
+                marker: {
+                    latlng: currentPosition.coords
+                },
                 error: null
             });
         }
@@ -50,12 +57,15 @@ export default class Home extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+                <Menu/>
                 {this.state.region ?
                     (<MapView
                         style={styles.mapStyle}
-                        region={this.state.region}
-                    />)
-                    : <Text>Venter på mine koordinater...</Text>
+                        initialRegion={this.state.region}>
+
+                        <Marker coordinate={this.state.marker.latlng} title="Home"/>
+
+                    </MapView>) : <Text>Venter på mine koordinater...</Text>
                 }
             </View>
         );
@@ -82,10 +92,12 @@ const styles = StyleSheet.create({
     mapStyle: {
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
+        zIndex: -1
     },
     paragraph: {
         margin: 24,
         fontSize: 18,
         textAlign: 'center'
-    }
+    },
+
 });
