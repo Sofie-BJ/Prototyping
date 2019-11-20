@@ -5,7 +5,6 @@ import {StyleSheet, Text, View, Dimensions} from 'react-native';
 import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
 import Menu from "../components/Menu";
-import {Button} from "react-native-web";
 
 export default class Home extends React.Component {
 
@@ -19,7 +18,7 @@ export default class Home extends React.Component {
         }
     }
 
-    //static navigationOptions = {header: null};
+    static navigationOptions = {header: null};
 
     async componentDidMount() {
         await this.AskPermission();
@@ -54,10 +53,22 @@ export default class Home extends React.Component {
         this.watchid.remove();
     }
 
+    async AskPermission() {
+        let {status} = await Permissions.askAsync(Permissions.LOCATION);
+        console.log('Asking for geo permission: ' + status);
+        if (status !== 'granted') {
+            this.setState({
+                errorMessage: 'Permission to access location was denied',
+            });
+        }
+    }
+
     render() {
         return (
             <View style={styles.container}>
+
                 <Menu/>
+
                 {this.state.region ?
                     (<MapView
                         style={styles.mapStyle}
@@ -69,16 +80,6 @@ export default class Home extends React.Component {
                 }
             </View>
         );
-    }
-
-    async AskPermission() {
-        let {status} = await Permissions.askAsync(Permissions.LOCATION);
-        console.log('Asking for geo permission: ' + status);
-        if (status !== 'granted') {
-            this.setState({
-                errorMessage: 'Permission to access location was denied',
-            });
-        }
     }
 }
 

@@ -8,8 +8,14 @@ export default class CreatePopUp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            dialogVisible: this.props.visible
+            dialogVisible: true,
         }
+
+        this.newRouteTitle = null;
+    }
+
+    getVisible = () => {
+        return this.state.dialogVisible;
     }
 
     handleCancel = () => {
@@ -17,6 +23,7 @@ export default class CreatePopUp extends React.Component {
     };
 
     handleSave = () => {
+        this.props.callback(this.newRouteTitle)
         this.setState({dialogVisible: false});
     };
 
@@ -25,7 +32,8 @@ export default class CreatePopUp extends React.Component {
             <View>
                 <Dialog.Container visible={this.state.dialogVisible}>
                     <Dialog.Title>What to Remember</Dialog.Title>
-                    <Dialog.Input placeholder="Write the title of what you wish to remember"></Dialog.Input>
+                    <Dialog.Input placeholder="Write the title of what you wish to remember"
+                                  onChangeText={routeTitle => this.newRouteTitle = routeTitle}/>
                     <Dialog.Button label="Cancel" onPress={this.handleCancel}/>
                     <Dialog.Button label="Save" onPress={this.handleSave}/>
                 </Dialog.Container>

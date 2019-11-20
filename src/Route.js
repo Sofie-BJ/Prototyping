@@ -2,7 +2,7 @@
 // Klassen består af 2 variabler og 2 metoder.
 
 
-class Route {
+export default class Route {
     constructor(title) {
         this._title = title;
         this.routePoints = [];
