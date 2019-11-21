@@ -10,7 +10,6 @@ import Route from "../Route";
 
 export default class Home extends React.Component {
 
-
     constructor(props) {
         super(props);
         this.routes = [];
@@ -75,13 +74,13 @@ export default class Home extends React.Component {
     };
 
     cancelPopUp = () => {
-        this.setState({popUp: null})
+        this.setState(
+            {popUp: null})
     }
 
     createPopUp = () => {
-        this.setState({
-            popUp: new CreatePopUp()
-        });
+        this.setState(
+            {popUp: new CreatePopUp()});
     };
 
     render() {
@@ -89,6 +88,13 @@ export default class Home extends React.Component {
 
         return (
             <View style={styles.container}>
+                <View style={styles.menu}>
+                    <Menu routes={this.routes}/>
+                    <Button style={styles.button} onPress={this.createPopUp} title="Create Route"/>
+                    { popup ?
+                        (<CreatePopUp callback={this.addRoute} cancelPopUp={this.cancelPopUp}/>): null
+                    }
+                </View>
                 <View>
                     {this.state.region ?
                         (<MapView
@@ -100,13 +106,7 @@ export default class Home extends React.Component {
                         </MapView>) : <Text>Venter på mine koordinater...</Text>
                     }
                 </View>
-                <View style={styles.menu}>
-                    <Menu routes={this.routes}/>
-                    <Button style={styles.button} onPress={this.createPopUp} title="Create Route"/>
-                    { popup ?
-                        (<CreatePopUp callback={this.addRoute} cancelPopUp={this.cancelPopUp}/>): null
-                    }
-                </View>
+
             </View>
         );
     }

@@ -20,9 +20,10 @@ export default class Menu extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                {this.state.routes.map(route =>
-                    (<Route key={0} title={route.title}/>)
-                )}
+                {this.state.routes.map(route => {
+                    this.id++;
+                    (<Route key={this.id} title={route.title}/>)
+                })}
             </View>
         )
     }
