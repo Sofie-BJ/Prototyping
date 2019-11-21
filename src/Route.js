@@ -29,7 +29,10 @@ export default class Route extends React.Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'blue',
-        top: 24
+        flexDirection: 'row',
+        margin: 10,
+        padding: 7
+
     },
     text: {
         fontSize: 24,

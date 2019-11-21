@@ -17,7 +17,7 @@ export default class CreatePopUp extends React.Component {
                     <Dialog.Title>What to Remember</Dialog.Title>
                     <Dialog.Input placeholder="Write the title of what you wish to remember"
                                   onChangeText={routeTitle => this.newRouteTitle = routeTitle}/>
-                    <Dialog.Button label="Cancel" onPress={() => this.props.cancelPopUp}/>
+                    <Dialog.Button label="Cancel" onPress={() => this.props.cancel()}/>
                     <Dialog.Button label="Save" onPress={() => this.props.callback(this.newRouteTitle)}/>
                 </Dialog.Container>
             </View>

@@ -10,6 +10,8 @@ import Route from "../Route";
 
 export default class Home extends React.Component {
 
+
+
     constructor(props) {
         super(props);
         this.routes = [];
@@ -21,6 +23,7 @@ export default class Home extends React.Component {
             popUp: null,
             routes: this.routes
         }
+        this.id = 0;
     }
 
     static navigationOptions = {header: null};
@@ -69,8 +72,10 @@ export default class Home extends React.Component {
     }
 
     addRoute = (routeTitle) => {
-        this.routes.push(new Route(routeTitle));
-        this.setState({popUp: null})
+        this.routes.push(new Route(routeTitle, this.id));
+        this.id++;
+        this.setState({popUp: null});
+
     };
 
     cancelPopUp = () => {
@@ -90,10 +95,12 @@ export default class Home extends React.Component {
             <View style={styles.container}>
                 <View style={styles.menu}>
                     <Menu routes={this.routes}/>
-                    <Button style={styles.button} onPress={this.createPopUp} title="Create Route"/>
-                    { popup ?
-                        (<CreatePopUp callback={this.addRoute} cancelPopUp={this.cancelPopUp}/>): null
-                    }
+                    <View style={styles.button}>
+                        <Button  onPress={this.createPopUp} title="Create Route"/>
+                        {popup ?
+                            (<CreatePopUp callback={this.addRoute} cancel={this.cancelPopUp}/>) : null
+                        }
+                    </View>
                 </View>
                 <View>
                     {this.state.region ?
@@ -106,7 +113,6 @@ export default class Home extends React.Component {
                         </MapView>) : <Text>Venter på mine koordinater...</Text>
                     }
                 </View>
-
             </View>
         );
     }
@@ -130,15 +136,15 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     menu: {
-        position: 'absolute',
-        top: 24,
-        backgroundColor: 'red',
-        //alignSelf: 'flex-end',
-        flex: 1
+        top: 40,
+        backgroundColor: 'transparent',
+        width: '100%',
+        flexDirection: 'row',
     },
-    routes: {
-        backgroundColor: 'black'
+    button: {
+        width: '25%',
+        alignItems: 'flex-end',
     }
 
-
 });
+
