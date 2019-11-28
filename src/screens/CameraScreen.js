@@ -3,11 +3,8 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, Button, CameraRoll } f
 import Constants from 'expo-constants';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
-import {createStackNavigator} from 'react-navigation-stack';
-import {createAppContainer} from 'react-navigation';
 
-
-export default class CreateRoute extends React.Component {
+export default class CameraScreen extends React.Component {
 
     static navigationOptions = {header: null};
 
@@ -93,7 +90,7 @@ export default class CreateRoute extends React.Component {
                             />
                             <Button
                                 title = 'Home'
-                                onPress={() => this.props.navigation.navigate('Home')} //HVORDAN NAVIGERE VI TIL EN SIDE HVOR BILLEDET BLIVER VIST OG MAN KAN TILFØJE TEKST
+                                onPress={() => this.props.navigation.navigate('DisplayRoutes')} //HVORDAN NAVIGERE VI TIL EN SIDE HVOR BILLEDET BLIVER VIST OG MAN KAN TILFØJE TEKST
                             />
                         </View>
                     ) : (

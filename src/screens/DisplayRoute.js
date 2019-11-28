@@ -1,12 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, Image, Button, CameraRoll, Dimensions} from 'react-native';
-import Constants from 'expo-constants';
-import {Camera} from 'expo-camera';
 import * as Permissions from 'expo-permissions';
-import {createStackNavigator} from 'react-navigation-stack';
-import {createAppContainer} from 'react-navigation';
 import * as Location from "expo-location";
-import CircleButton from 'react-native-circle-button';
 import {IconButton, Colors} from 'react-native-paper';
 
 import Route from "../Route";
@@ -97,7 +92,7 @@ export default class DisplayRoute extends React.Component {
                         style={styles.button}
                         icon="camera"
                         mode='contained'
-                        onPress={() => this.props.navigation.navigate("CreateRoute")}/>
+                        onPress={() => this.props.navigation.navigate("Camera")}/>
                 </View>
 
             </View>

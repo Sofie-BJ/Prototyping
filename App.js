@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import Home from './src/screens/Home';
-import CreateRoute from './src/screens/CreateRoute';
+import CameraScreen from './src/screens/CameraScreen';
 import CreatePopUp from './src/components/CreatePopUp';
 import Menu from './src/components/Menu';
 import UpdatePopUp from './src/components/UpdatePopUp';
@@ -16,8 +16,8 @@ const StackNavigator = createStackNavigator(
     {
         Home: Home,
         HomeRoutes: HomeRoutes,
-        CreateRoute: CreateRoute,
-        DisplayRoute: DisplayRoute
+        DisplayRoute: DisplayRoute,
+        Camera: CameraScreen,
     },
     {
         initialRouteName: 'HomeRoutes'
