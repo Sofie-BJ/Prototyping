@@ -9,13 +9,15 @@ import UpdatePopUp from './src/components/UpdatePopUp';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
 import HomeRoutes from "./src/screens/HomeRoutes";
+import DisplayRoute from "./src/screens/DisplayRoute";
 
 //StackNavigator. Define screens and initialRouteName specifies start screen.
 const StackNavigator = createStackNavigator(
     {
         Home: Home,
         HomeRoutes: HomeRoutes,
-        CreateRoute: CreateRoute
+        CreateRoute: CreateRoute,
+        DisplayRoute: DisplayRoute
     },
     {
         initialRouteName: 'HomeRoutes'

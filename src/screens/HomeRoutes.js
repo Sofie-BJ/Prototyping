@@ -1,10 +1,28 @@
 import React from 'react';
-import {StyleSheet, Text, View, Button, TouchableOpacity, FlatList} from 'react-native';
+import {StyleSheet, Text, View, Button, TouchableOpacity} from 'react-native';
 import Route from "../Route";
 import CreatePopUp from "../components/CreatePopUp";
-import TextStylePropTypes from "react-native-web/dist/exports/Text/TextStylePropTypes";
 
 export default class HomeRoutes extends React.Component {
+
+    testRoute = {
+        title: "Test Route",
+        routePoints: [{
+            title: "35",
+            coordinate: {
+                latitude: 55.407170,
+                longitude: 10.381090
+            },
+            image: ""
+        },{
+            title: "Thea",
+            coordinate: {
+                latitude: 55.406479,
+                longitude: 10.383643
+            },
+            image: ""
+        }]
+    };
 
     constructor(props) {
         super(props);
@@ -16,9 +34,12 @@ export default class HomeRoutes extends React.Component {
     }
 
     addRoute = (routeTitle) => {
-        this.routes.push(new Route(routeTitle, this.id));
+        let newRoute = new Route(routeTitle, this.id)
+        this.routes.push(newRoute);
         this.id++;
         this.setState({popUp: null});
+
+        this.props.navigation.navigate("DisplayRoute", {route: this.testRoute});
 
     };
 
