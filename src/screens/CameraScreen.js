@@ -11,21 +11,21 @@ export default class CameraScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            hasCameraPermissions: false,
             ratio: '16:9',
-            isShown: false
+            isShown: false,
+            errorMessage: ""
         };
     }
 
 
     async componentDidMount() {
-        let { status } = await Permissions.askAsync(Permissions.CAMERA);
-        await Permissions.askAsync(Permissions.CAMERA_ROLL);
-        this.setState({
-            hasCameraPermissions: status === 'granted',
-            showPicture: false,
-            pictureUri: '',
-        });
+        let {status} = await Permissions.askAsync(Permissions.CAMERA);
+        console.log("Asking for camera permission: " + status);
+        if (status !== 'granted') {
+            this.setState({
+                errorMessage: 'Permission to access camera was denied'
+            })
+        }
     }
 
     collectPictureSizes = async () => {
