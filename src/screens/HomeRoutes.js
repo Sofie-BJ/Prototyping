@@ -65,13 +65,15 @@ export default class HomeRoutes extends React.Component {
 
                 {this.routes ?
                     this.state.routes.map(route => (
-                        <Route key={route.props.toString()} title={route.props}/>
+                        <View>
+                        <Route route={route} key={route.props.toString()} title={route.props}/>
+                        <Button onPress = {()=>this.props.navigation.navigate("GoRoute", {route: route})} title="Go" ></Button>
+                        </View>
                     )) : null
                 }
             </View>
         );
     }
-
 }
 
 const styles = StyleSheet.create({
