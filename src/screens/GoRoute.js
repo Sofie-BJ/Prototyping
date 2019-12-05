@@ -4,7 +4,7 @@ import * as Permissions from 'expo-permissions';
 import * as Location from "expo-location";
 import {IconButton, Colors} from 'react-native-paper';
 
-import MapView, {Marker} from "react-native-maps";
+import MapView, {Marker, Callout} from "react-native-maps";
 
 export default class GoRoute extends React.Component {
     constructor(props) {
@@ -77,6 +77,21 @@ export default class GoRoute extends React.Component {
                             <Marker
                                 key={index}
                                 coordinate={routePoint.coordinate}>
+
+                                <Callout style={styles.plainView}>
+                                    <View>
+                                        <Text> 
+                                            {
+                                              routePoint.title   
+                                            }
+                                        </Text>
+                                        <Image
+                                            source={require()}
+                                            style={{width: 100, height: 100}}
+                                        />
+                                       
+                                    </View>
+                                </Callout>
                             </Marker>
 
                         ))}

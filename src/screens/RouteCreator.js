@@ -8,7 +8,7 @@ import RoutePoint from '../RoutePoint';
 import Route from "../Route";
 import MapView, {Marker, Callout} from "react-native-maps";
 
-import {AsyncStorage} from "react-native-web";
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default class RouteCreator extends React.Component {
     constructor(props) {
@@ -68,7 +68,7 @@ export default class RouteCreator extends React.Component {
                 errorMessage: 'Permission to access location was denied',
             });
         }
-    }
+    };
 
     setRoutePointInfo = (routeTitle, image) => {
         let coordinate = {
@@ -85,6 +85,16 @@ export default class RouteCreator extends React.Component {
             }
         });
     };
+
+    saveRoute = async () => {
+        try {
+            await AsyncStorage.setItem('this.state.route.title', this.state.route)
+        } catch (e) {
+            console.log(e)
+        }
+        this.props.navigation.navigate("HomeRoutes");
+    }
+
 
     render() {
         let popUp = this.state.popUp;
@@ -112,7 +122,10 @@ export default class RouteCreator extends React.Component {
                         size={40}
                         icon="camera"
                         onPress={() => this.props.navigation.navigate("CameraScreen", {callback: this.setRoutePointInfo})}/>
-
+                    <IconButton
+                        size={40}
+                        icon="check-circle"
+                        onPress={() => this.saveRoute}/>
                 </View>
 
             </View>
