@@ -10,6 +10,8 @@ import Route from "../Route";
 
 export default class Home extends React.Component {
 
+    watchid = null;
+
     constructor(props) {
         super(props);
         this.routes = [];

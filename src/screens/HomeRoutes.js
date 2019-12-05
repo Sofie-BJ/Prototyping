@@ -39,14 +39,14 @@ export default class HomeRoutes extends React.Component {
         this.id++;
         this.setState({popUp: null});
 
-        this.props.navigation.navigate("DisplayRoute", {route: this.testRoute});
+        this.props.navigation.navigate("RouteCreator", {route: newRoute});
 
     };
 
     cancelPopUp = () => {
         this.setState(
             {popUp: null})
-    }
+    };
 
     createPopUp = () => {
         this.setState(
@@ -54,15 +54,13 @@ export default class HomeRoutes extends React.Component {
     };
 
     render() {
-
         let popUp = this.state.popUp;
-        console.log(this.routes)
 
         return (
             <View styles={styles.container}>
                 <Button onPress={this.createPopUp} title="+"/>
                 {popUp ?
-                    (<CreatePopUp callback={this.addRoute} cancel={this.cancelPopUp}/>) : null
+                    (<CreatePopUp title="Ny rute" callback={this.addRoute} cancel={this.cancelPopUp}/>) : null
                 }
 
                 {this.routes ?
@@ -70,8 +68,6 @@ export default class HomeRoutes extends React.Component {
                         <Route key={route.props.toString()} title={route.props}/>
                     )) : null
                 }
-
-
             </View>
         );
     }

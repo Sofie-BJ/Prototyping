@@ -10,14 +10,15 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
 import HomeRoutes from "./src/screens/HomeRoutes";
 import DisplayRoute from "./src/screens/DisplayRoute";
+import RouteCreator from "./src/screens/RouteCreator";
 
 //StackNavigator. Define screens and initialRouteName specifies start screen.
 const StackNavigator = createStackNavigator(
     {
-        Home: Home,
         HomeRoutes: HomeRoutes,
         DisplayRoute: DisplayRoute,
-        Camera: CameraScreen,
+        CameraScreen: CameraScreen,
+        RouteCreator: RouteCreator
     },
     {
         initialRouteName: 'HomeRoutes'
