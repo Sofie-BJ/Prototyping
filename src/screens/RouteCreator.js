@@ -109,10 +109,8 @@ export default class RouteCreator extends React.Component {
 
                 <View style={styles.bottom}>
                     <IconButton
-                        size={50}
-                        style={styles.button}
+                        size={40}
                         icon="camera"
-                        mode='contained'
                         onPress={() => this.props.navigation.navigate("CameraScreen", {callback: this.setRoutePointInfo})}/>
 
                 </View>
@@ -142,7 +140,11 @@ const styles = StyleSheet.create({
     },
     bottom: {
         bottom: 10,
-        position: 'absolute'
+        position: 'absolute',
+        backgroundColor: '#FFFFFF80',
+        alignItems: 'center',
+        borderRadius: 40,
+       
     },
     plainView: {
         width: 300,
