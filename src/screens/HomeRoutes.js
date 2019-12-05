@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View, Button, TouchableOpacity} from 'react-native';
 import Route from "../Route";
 import CreatePopUp from "../components/CreatePopUp";
+import {AsyncStorage} from "react-native-web";
 
 export default class HomeRoutes extends React.Component {
 
@@ -26,7 +27,6 @@ export default class HomeRoutes extends React.Component {
 
     constructor(props) {
         super(props);
-        this.routes = [];
         this.state = {
             routes: this.routes,
             popUp: null
