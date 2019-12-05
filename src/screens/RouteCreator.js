@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF80',
         alignItems: 'center',
         borderRadius: 40,
-       
+
     },
     plainView: {
         width: 300,
