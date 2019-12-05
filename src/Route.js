@@ -22,7 +22,6 @@ export default class Route extends React.Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.text}>{this.props.title}</Text>
-                {console.log("Route")}
             </View>
         );
     }
