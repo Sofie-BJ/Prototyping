@@ -3,22 +3,26 @@ import {StyleSheet, Text, View, Dimensions, Image, TextInput} from 'react-native
 import * as Permissions from 'expo-permissions';
 import * as Location from "expo-location";
 import {IconButton, Colors} from 'react-native-paper';
+import RoutePoint from '../RoutePoint';
 
 import Route from "../Route";
 import MapView, {Marker, Callout} from "react-native-maps";
-import UpdatePopUp from "../components/UpdatePopUp";
-import CreatePopUp from "../components/CreatePopUp";
 
-export default class DisplayRoute extends React.Component {
+import {AsyncStorage} from "react-native-web";
+
+export default class RouteCreator extends React.Component {
     constructor(props) {
         super(props);
+        this.route = this.props.navigation.getParam('route');
+
         this.state = {
             location: null,
             errorMessage: null,
             region: null,
             marker: null,
-            popUp: null
-        }
+            popUp: null,
+            route: this.route
+        };
     }
 
     static navigationOptions = {header: null};
@@ -66,24 +70,23 @@ export default class DisplayRoute extends React.Component {
         }
     }
 
-    createPopUp = () => {
-        console.log("Create popup")
-        this.setState(
-            {popUp: new UpdatePopUp()});
-    };
-
-    cancelPopUp = () => {
-        this.setState(
-            {popUp: null})
-    };
-
-    updateRoutePoint = (updatedRoutePointTitle) => {
-
+    setRoutePointInfo = (routeTitle, image) => {
+        let coordinate = {
+            latitude: this.state.location.coords.latitude,
+            longitude: this.state.location.coords.longitude
+        };
+        let routePoint = new RoutePoint(routeTitle, coordinate, image);
+        let newRoutePointArray = [...this.state.route.routePoints];
+        newRoutePointArray.push(routePoint);
+        this.setState({
+            route: {
+                ...this.state.route,
+                routePoints: newRoutePointArray
+            }
+        });
     };
 
     render() {
-
-        const {route} = this.props.navigation.state.params;
         let popUp = this.state.popUp;
 
         return (
@@ -93,28 +96,25 @@ export default class DisplayRoute extends React.Component {
                         style={styles.mapStyle}
                         initialRegion={this.state.region}>
 
-                        {route.routePoints.map((routePoint, index) => (
-                            <Marker
-                                key={index}
-                                coordinate={routePoint.coordinate}
-                                onPress={() => this.createPopUp}>
-
-                                <Callout style={styles.plainView}>
-                                    <View>
-                                        <Text>This is a plain view</Text>
-                                        <Image
-                                            source={require('/Users/sofie/git/Prototyping/assets/sofieogjonas.jpg')}
-                                            style={{width: 100, height: 100}}
-                                        />
-                                        <TextInput placeholder="Please write the new title of the point"/>
-                                    </View>
-                                </Callout>
-                            </Marker>
-
-                        ))}
+                        {this.state.route.routePoints.map((routepoint, index) =>
+                            (
+                                <Marker
+                                    key={index}
+                                    coordinate={routepoint._coordinate}
+                                    pinColor={'blue'}/>
+                            ))}
 
                     </MapView>) : <Text>Venter på mine koordinater...</Text>
                 }
+
+                <View style={styles.bottom}>
+                    <IconButton
+                        size={40}
+                        icon="camera"
+                        onPress={() => this.props.navigation.navigate("CameraScreen", {callback: this.setRoutePointInfo})}/>
+
+                </View>
+
             </View>
         )
     }
@@ -140,7 +140,11 @@ const styles = StyleSheet.create({
     },
     bottom: {
         bottom: 10,
-        position: 'absolute'
+        position: 'absolute',
+        backgroundColor: '#FFFFFF80',
+        alignItems: 'center',
+        borderRadius: 40,
+       
     },
     plainView: {
         width: 300,

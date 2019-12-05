@@ -4,6 +4,10 @@ import Constants from 'expo-constants';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 
+import {IconButton, Colors} from 'react-native-paper';
+import CreatePopUp from "../components/CreatePopUp";
+import {AsyncStorage} from "react-native-web";
+
 export default class CameraScreen extends React.Component {
 
     static navigationOptions = {header: null};
@@ -11,23 +15,24 @@ export default class CameraScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            hasCameraPermissions: false,
             ratio: '16:9',
-            isShown: false,
-            errorMessage: ""
+            bottomBar: false,
+            popUp: null
         };
     }
 
-
     async componentDidMount() {
-        let {status} = await Permissions.askAsync(Permissions.CAMERA);
-        console.log("Asking for camera permission: " + status);
-        if (status !== 'granted') {
-            this.setState({
-                errorMessage: 'Permission to access camera was denied'
-            })
-        }
+        let { status } = await Permissions.askAsync(Permissions.CAMERA);
+        await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        this.setState({
+            hasCameraPermissions: status === 'granted',
+            showPicture: false,
+            pictureUri: '',
+        });
     }
 
+/*
     collectPictureSizes = async () => {
         ratios = await this.getRatios();
 
@@ -37,34 +42,52 @@ export default class CameraScreen extends React.Component {
         const ratios = await this.camera.getSupportedRatiosAsync();
         return ratios;
     }
+*/
 
     takePicture = () => {
         if (this.camera) {
-            this.camera.takePictureAsync({ onPictureSaved: this.onPictureSaved })
+            this.camera.takePictureAsync(
+                { onPictureSaved: this.onPictureSaved })
+                .catch(() => {console.log("Couldn't save picture")})
             // setState er en asynkron funktion -- await betyder at den venter med at gå videre til den viser true
             this.setState({
-                isShown: true
+                bottomBar: true
             })
         }
-    }
+    };
 
     onPictureSaved = async photo => {
-        CameraRoll.saveToCameraRoll(photo.uri);
         await this.setState({
             showPicture: true,
             pictureUri: photo.uri,
         });
-    }
+    };
+
+    saveRoutePoint = (routePointTitle) => {
+        this.setState({popUp: null});
+        this.props.navigation.getParam('callback')(routePointTitle, this.state.pictureUri);
+        this.props.navigation.goBack();
+    };
+
+    cancelPopUp = () => {
+        this.setState(
+            {popUp: null})
+    };
+
+    createPopUp = () => {
+        this.setState(
+            {popUp: new CreatePopUp()});
+    };
 
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.topBar}>
-                </View>
                 {this.state.hasCameraPermissions ? (
                     <View style={styles.cameraContainer}>
                         {this.state.showPicture ? (
-                            <Image source={{ uri: this.state.pictureUri }} style={styles.camera}/>
+                            <Image
+                                source={{ uri: this.state.pictureUri }}
+                                style={styles.camera}/>
                         ) : (
                             <Camera
                                 ref={ref => {
@@ -74,23 +97,26 @@ export default class CameraScreen extends React.Component {
                                 type={Camera.Constants.Type.back}
                                 ratio={this.state.ratio}
                                 onCameraReady={this.collectPictureSizes}
-                            >
-                            </Camera>
+                            />
                         )}
                     </View>
-                ) : null
+                ) : <Text>Kameraet må ikke bruges i appen</Text>
                 }
-                <View style={styles.bottomBar}>
 
-                    {this.state.isShown ? (
-                        <View>
+                <View style={styles.bottomBar}>
+                    {this.state.bottomBar? (
+                        <View style={styles.toolbar}>
                             <Button
-                                title = 'Tag et nyt'
+                                title="Retake"
                                 onPress={() => this.setState({showPicture: false, isShown: false})}
                             />
-                            <Button
-                                title = 'Home'
-                                onPress={() => this.props.navigation.navigate('DisplayRoutes')} //HVORDAN NAVIGERE VI TIL EN SIDE HVOR BILLEDET BLIVER VIST OG MAN KAN TILFØJE TEKST
+
+                            <IconButton
+                                size={50}
+                                style={styles.button}
+                                icon="check-circle"
+                                mode='contained'
+                                onPress={this.createPopUp}
                             />
                         </View>
                     ) : (
@@ -99,7 +125,12 @@ export default class CameraScreen extends React.Component {
                             onPress={this.takePicture}/>
                     )
                     }
+
+                    {this.state.popUp ?
+                        (<CreatePopUp title="Nyt punkt på din rute" callback={this.saveRoutePoint} cancel={this.cancelPopUp}/>) : null
+                    }
                 </View>
+
             </View >
         );
     }
@@ -142,5 +173,8 @@ const styles = StyleSheet.create({
         width: 50,
         borderWidth: 1,
         borderRadius: 100,
+    },
+    toolbar: {
+        flexDirection: 'row'
     }
-});
+})

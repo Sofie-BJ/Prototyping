@@ -10,7 +10,7 @@ export default class CreatePopUp extends React.Component {
 
     constructor(props) {
         super(props);
-        this.newRouteTitle = null;
+        this.updatedRouteTitle = null;
     }
 
 render () {
@@ -20,7 +20,7 @@ render () {
           <Dialog.Title>Change RoutePoint</Dialog.Title>
           <Dialog.Input placeholder="Write the title of what you wish to remember"/>
           <Dialog.Button label="Cancel" onPress={() => this.props.cancel()}/>
-          <Dialog.Button label="Save" onPress={() => this.props.callback(this.newRouteTitle)}/>
+          <Dialog.Button label="Save" onPress={() => this.props.callback(this.updatedRouteTitle)}/>
         </Dialog.Container>
       </View>
     )

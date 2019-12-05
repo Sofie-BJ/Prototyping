@@ -17,6 +17,7 @@ export default class Route extends React.Component {
         return this.routePoints.length;
     }
 
+
     render() {
         return (
             <View style={styles.container}>
@@ -33,7 +34,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         margin: 10,
         padding: 7
-
     },
     text: {
         fontSize: 24,
