@@ -103,7 +103,7 @@ export default class DisplayRoute extends React.Component {
                                     <View>
                                         <Text>This is a plain view</Text>
                                         <Image
-                                            source={require('/Users/sofie/git/Prototyping/assets/sofieogjonas.jpg')}
+                                            source={require('../../assets/sofieogjonas.jpg')}
                                             style={{width: 100, height: 100}}
                                         />
                                         <TextInput placeholder="Please write the new title of the point"/>
