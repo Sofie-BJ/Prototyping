@@ -11,8 +11,7 @@ import MapView, {Marker, Callout} from "react-native-maps";
 export default class RouteCreator extends React.Component {
     constructor(props) {
         super(props);
-        this.route = this.props.navigation.getParam('route');
-        this.watchid = null;
+        this.route = new Route(this.props.navigation.getParam('route'));
 
         this.state = {
             location: null,
@@ -24,7 +23,9 @@ export default class RouteCreator extends React.Component {
         };
     }
 
-    static navigationOptions = {header: null};
+    static navigationOptions = {
+        title: 'Lav en ny rute',
+    };
 
     async componentDidMount() {
         await this.AskPermission();
@@ -42,15 +43,15 @@ export default class RouteCreator extends React.Component {
                 region: {
                     latitude: currentPosition.coords.latitude,
                     longitude: currentPosition.coords.longitude,
-                    latitudeDelta: 0.075,
-                    longitudeDelta: 0.075
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005
                 },
                 marker: {
                     latlng: currentPosition.coords
                 },
                 error: null
             });
-        }
+        };
 
         this.watchid = await Location.watchPositionAsync(option, locationCallback);
     }
@@ -95,7 +96,6 @@ export default class RouteCreator extends React.Component {
         this.props.navigation.navigate("HomeRoutes");
     };
 
-
     render() {
         let popUp = this.state.popUp;
 
@@ -105,6 +105,8 @@ export default class RouteCreator extends React.Component {
                     (<MapView
                         style={styles.mapStyle}
                         initialRegion={this.state.region}>
+
+                        <Marker coordinate={this.state.location.coords}/>
 
                         {this.state.route.routePoints.map((routepoint, index) =>
                             (
@@ -122,10 +124,11 @@ export default class RouteCreator extends React.Component {
                         size={40}
                         icon="camera"
                         onPress={() => this.props.navigation.navigate("CameraScreen", {callback: this.setRoutePointInfo})}/>
-                    <IconButton
-                        size={40}
-                        icon="check-circle"
-                        onPress={this.saveRoute}/>
+                    {this.state.route.routePoints.length !== 0 ?
+                        (<IconButton
+                            size={40}
+                            icon="check-circle"
+                            onPress={this.saveRoute}/>): null }
                 </View>
 
             </View>
@@ -154,7 +157,6 @@ const styles = StyleSheet.create({
     bottom: {
         bottom: 10,
         position: 'absolute',
-        backgroundColor: '#FFFFFF80',
         alignItems: 'center',
         borderRadius: 40,
 

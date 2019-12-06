@@ -10,7 +10,7 @@ export default class GoRoute extends React.Component {
     constructor(props) {
         super(props);
         let routeTitle = this.props.navigation.getParam("routeTitle");
-        this.watchid = null;
+
         this.state = {
             location: null,
             errorMessage: null,
@@ -25,7 +25,9 @@ export default class GoRoute extends React.Component {
 
     }
 
-    static navigationOptions = {header: null};
+    static navigationOptions = {
+        title: 'Gå din rute'
+    };
 
     async componentDidMount() {
         await this.AskPermission();
@@ -41,8 +43,8 @@ export default class GoRoute extends React.Component {
                 region: {
                     latitude: currentPosition.coords.latitude,
                     longitude: currentPosition.coords.longitude,
-                    latitudeDelta: 0.075,
-                    longitudeDelta: 0.075
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005
                 },
                 marker: {
                     latlng: currentPosition.coords
@@ -53,8 +55,10 @@ export default class GoRoute extends React.Component {
         this.watchid = Location.watchPositionAsync(option, locationCallback);
     }
 
-    async componentWillUnmount() {
-        this.watchid.remove();
+    componentWillUnmount() {
+        this.watchid.then(e => {
+            e.remove()
+        })
     }
 
     async AskPermission() {
@@ -68,8 +72,6 @@ export default class GoRoute extends React.Component {
     }
 
     render() {
-
-        console.log(this.route)
         return (
             <View style={styles.container}>
                 {this.route ?
@@ -95,12 +97,6 @@ export default class GoRoute extends React.Component {
                         </MapView>) : null)
                     : <Text>Venter på rute</Text>}
 
-                <View style={styles.bottom}>
-                    <IconButton
-                        size={40}
-                        icon="keyboard-backspace"
-                        onPress={() => this.props.navigation.goBack()}/>
-                </View>
             </View>
         )
     }

@@ -12,6 +12,7 @@ import HomeRoutes from "./src/screens/HomeRoutes";
 import DisplayRoute from "./src/screens/DisplayRoute";
 import RouteCreator from "./src/screens/RouteCreator";
 import GoRoute from "./src/screens/GoRoute";
+import Route from "./src/Route";
 
 //StackNavigator. Define screens and initialRouteName specifies start screen.
 const StackNavigator = createStackNavigator(
@@ -19,8 +20,8 @@ const StackNavigator = createStackNavigator(
         HomeRoutes: HomeRoutes,
         CameraScreen: CameraScreen,
         RouteCreator: RouteCreator,
-        GoRoute: GoRoute
-
+        GoRoute: GoRoute,
+        Route: Route
     },
     {
         initialRouteName: 'HomeRoutes'

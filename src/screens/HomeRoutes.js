@@ -23,15 +23,11 @@ export default class HomeRoutes extends React.Component {
     }
 
     addRoute = (routeTitle) => {
-        let newRoute = new Route(routeTitle, this.id);
         this.setState({
-            routes: [...this.state.routes, newRoute]
+            routes: [...this.state.routes, routeTitle],
+            popUp: null
         });
-        this.id++;
-        this.setState({popUp: null});
-
-        this.props.navigation.navigate("RouteCreator", {route: newRoute});
-
+        this.props.navigation.navigate("RouteCreator", {route: routeTitle});
     };
 
     cancelPopUp = () => {
@@ -63,13 +59,13 @@ export default class HomeRoutes extends React.Component {
                 {routes !== null ?
                     routes.map(routeTitle => (
                         (<View style={styles.routeDiv}>
-                                <Route key={routeTitle} title={routeTitle}/>
+                                <Text style={styles.text}>{routeTitle}</Text>
                                 <IconButton
-                                    key={"walk"}
-                                    onPress={() => {
-                                        this.props.navigation.navigate("GoRoute", {routeTitle: routeTitle});
-                                    }}
-                                    icon="walk"/>
+                                    onPress={() => this.props.navigation.navigate("GoRoute", {routeTitle: routeTitle})}
+                                    icon="walk"
+                                    style={styles.walkingMan}
+                                />
+
                             </View>
                         ))) : <Text>Henter ruter</Text>
                 }
@@ -82,33 +78,26 @@ export default class HomeRoutes extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#d3e0e3',
     },
     iconButton: {
         borderRadius: 40,
-        backgroundColor: 'red'
-    },
-    item: {
-        padding: 10,
-        fontSize: 18,
-        height: 44,
+        backgroundColor: '#FFFFFF80',
+        alignSelf: "flex-end",
+        justifyContent: 'flex-end',
+        margin: 10,
     },
     routeDiv: {
         flexDirection: 'row',
-        alignSelf: 'stretch',
-        alignItems: 'center',
-        borderRadius: 40,
-        backgroundColor: 'grey',
-        margin: 20
+        alignItems: 'stretch',
+        backgroundColor: 'white',
+        justifyContent: 'space-between',
+        padding: 6,
+        margin: 5,
+        borderRadius: 10
     },
-    routeElement: {
-        width: "35%",
-        backgroundColor: 'white'
-    },
-
-
+    text: {
+        fontSize: 24,
+        top: 5,
+    }
 });
-/*
-
-
-*/
