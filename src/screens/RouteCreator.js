@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, Dimensions, Image, TextInput} from 'react-native';
+import {StyleSheet, Text, View, Dimensions, Image, TextInput, AsyncStorage} from 'react-native';
 import * as Permissions from 'expo-permissions';
 import * as Location from "expo-location";
 import {IconButton, Colors} from 'react-native-paper';
@@ -8,12 +8,11 @@ import RoutePoint from '../RoutePoint';
 import Route from "../Route";
 import MapView, {Marker, Callout} from "react-native-maps";
 
-import AsyncStorage from '@react-native-community/async-storage';
-
 export default class RouteCreator extends React.Component {
     constructor(props) {
         super(props);
         this.route = this.props.navigation.getParam('route');
+        this.watchid = null;
 
         this.state = {
             location: null,
@@ -53,7 +52,7 @@ export default class RouteCreator extends React.Component {
             });
         }
 
-        this.watchid = Location.watchPositionAsync(option, locationCallback);
+        this.watchid = await Location.watchPositionAsync(option, locationCallback);
     }
 
     componentWillUnmount() {
@@ -88,12 +87,13 @@ export default class RouteCreator extends React.Component {
 
     saveRoute = async () => {
         try {
-            await AsyncStorage.setItem('this.state.route.title', this.state.route)
+            let routeTitle = this.state.route.props;
+            await AsyncStorage.setItem(routeTitle, JSON.stringify(this.state.route));
         } catch (e) {
-            console.log(e)
+            console.log("RouteCreator failed to save route: " + e.message)
         }
         this.props.navigation.navigate("HomeRoutes");
-    }
+    };
 
 
     render() {
@@ -125,7 +125,7 @@ export default class RouteCreator extends React.Component {
                     <IconButton
                         size={40}
                         icon="check-circle"
-                        onPress={() => this.saveRoute}/>
+                        onPress={this.saveRoute}/>
                 </View>
 
             </View>

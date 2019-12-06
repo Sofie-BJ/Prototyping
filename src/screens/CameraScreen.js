@@ -6,7 +6,6 @@ import * as Permissions from 'expo-permissions';
 
 import {IconButton, Colors} from 'react-native-paper';
 import CreatePopUp from "../components/CreatePopUp";
-import {AsyncStorage} from "react-native-web";
 
 export default class CameraScreen extends React.Component {
 
@@ -112,10 +111,8 @@ export default class CameraScreen extends React.Component {
                             />
 
                             <IconButton
-                                size={50}
-                                style={styles.button}
+                                size={40}
                                 icon="check-circle"
-                                mode='contained'
                                 onPress={this.createPopUp}
                             />
                         </View>
@@ -175,6 +172,8 @@ const styles = StyleSheet.create({
         borderRadius: 100,
     },
     toolbar: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        backgroundColor: "#FFFFFF80",
+        borderRadius: 40
     }
 })

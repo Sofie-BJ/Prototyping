@@ -8,6 +8,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "github:react-native-community/async-storage",
     "expo": "^35.0.0",
     "expo-constants": "latest",
     "expo-location": "latest",

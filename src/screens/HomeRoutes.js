@@ -1,41 +1,32 @@
 import React from 'react';
-import {StyleSheet, Text, View, Button, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, Button, AsyncStorage, TouchableOpacity} from 'react-native';
 import Route from "../Route";
 import CreatePopUp from "../components/CreatePopUp";
-import {AsyncStorage} from "react-native-web";
+import {IconButton, Colors} from 'react-native-paper';
 
 export default class HomeRoutes extends React.Component {
-
-    testRoute = {
-        title: "Test Route",
-        routePoints: [{
-            title: "35",
-            coordinate: {
-                latitude: 55.407170,
-                longitude: 10.381090
-            },
-            image: ""
-        },{
-            title: "Thea",
-            coordinate: {
-                latitude: 55.406479,
-                longitude: 10.383643
-            },
-            image: ""
-        }]
-    };
 
     constructor(props) {
         super(props);
         this.state = {
-            routes: this.routes,
+            routes: null,
             popUp: null
-        }
+        };
+
+        AsyncStorage.getAllKeys().then(response => {
+            if (response !== null) {
+                this.setState({
+                    routes: response
+                })
+            }
+        })
     }
 
     addRoute = (routeTitle) => {
-        let newRoute = new Route(routeTitle, this.id)
-        this.routes.push(newRoute);
+        let newRoute = new Route(routeTitle, this.id);
+        this.setState({
+            routes: [...this.state.routes, newRoute]
+        });
         this.id++;
         this.setState({popUp: null});
 
@@ -55,22 +46,34 @@ export default class HomeRoutes extends React.Component {
 
     render() {
         let popUp = this.state.popUp;
+        let routes = this.state.routes;
 
         return (
-            <View styles={styles.container}>
-                <Button onPress={this.createPopUp} title="+"/>
+            <View style={styles.container}>
+                <View style={styles.iconButton}>
+                    <IconButton
+                        onPress={this.createPopUp}
+                        icon='plus'
+                        size={40}/>
+                </View>
+
                 {popUp ?
                     (<CreatePopUp title="Ny rute" callback={this.addRoute} cancel={this.cancelPopUp}/>) : null
                 }
-
-                {this.routes ?
-                    this.state.routes.map(route => (
-                        <View>
-                        <Route route={route} key={route.props.toString()} title={route.props}/>
-                        <Button onPress = {()=>this.props.navigation.navigate("GoRoute", {route: route})} title="Go" ></Button>
-                        </View>
-                    )) : null
+                {routes !== null ?
+                    routes.map(routeTitle => (
+                        (<View style={styles.routeDiv}>
+                                <Route key={routeTitle} title={routeTitle}/>
+                                <IconButton
+                                    key={"walk"}
+                                    onPress={() => {
+                                        this.props.navigation.navigate("GoRoute", {routeTitle: routeTitle});
+                                    }}
+                                    icon="walk"/>
+                            </View>
+                        ))) : <Text>Henter ruter</Text>
                 }
+
             </View>
         );
     }
@@ -80,12 +83,32 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
+    },
+    iconButton: {
+        borderRadius: 40,
+        backgroundColor: 'red'
     },
     item: {
         padding: 10,
         fontSize: 18,
         height: 44,
     },
+    routeDiv: {
+        flexDirection: 'row',
+        alignSelf: 'stretch',
+        alignItems: 'center',
+        borderRadius: 40,
+        backgroundColor: 'grey',
+        margin: 20
+    },
+    routeElement: {
+        width: "35%",
+        backgroundColor: 'white'
+    },
+
+
 });
+/*
+
+
+*/

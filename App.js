@@ -17,7 +17,6 @@ import GoRoute from "./src/screens/GoRoute";
 const StackNavigator = createStackNavigator(
     {
         HomeRoutes: HomeRoutes,
-        DisplayRoute: DisplayRoute,
         CameraScreen: CameraScreen,
         RouteCreator: RouteCreator,
         GoRoute: GoRoute

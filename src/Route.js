@@ -9,19 +9,10 @@ export default class Route extends React.Component {
         this.routePoints = [];
     }
 
-    addRoutePoint(routePoint) {
-        this.routePoints.push(routePoint);
-    }
-
-    getRoutePoints() {
-        return this.routePoints.length;
-    }
-
-
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.text}>{this.props.title}</Text>
+                <Text style={styles.text}>Rute titel: {this.props.title}</Text>
             </View>
         );
     }
@@ -29,13 +20,12 @@ export default class Route extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'blue',
         flexDirection: 'row',
         margin: 10,
         padding: 7
     },
     text: {
         fontSize: 24,
-        color: 'white'
+        color: 'black'
     }
 });
