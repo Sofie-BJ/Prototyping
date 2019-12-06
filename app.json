@@ -1,6 +1,6 @@
 {
-  "name": "PrototypingProject",
-  "displayName": "MapIT",
+  "name": "MemoryLane",
+  "displayName": "MemoryLane",
   "expo": {
     "name": "PrototypingProject",
     "slug": "expo-template-bare",
@@ -8,6 +8,10 @@
     "sdkVersion": "35.0.0",
     "version": "1.0.0",
     "entryPoint": "node_modules/expo/AppEntry.js",
+    "icon": "./assets/icon.png",
+    "android": {
+      "package": "com.sbj.MemoryLane"
+    },
     "platforms": [
       "ios",
       "android",
