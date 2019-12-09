@@ -10,7 +10,6 @@ export default class HomeRoutes extends React.Component {
         super(props);
         this.state = {
             routes: null,
-            popUp: null
         };
 
         AsyncStorage.getAllKeys().then(response => {
@@ -22,40 +21,18 @@ export default class HomeRoutes extends React.Component {
         })
     }
 
-    addRoute = (routeTitle) => {
-        this.setState({
-            routes: [...this.state.routes, routeTitle],
-            popUp: null
-        });
-        this.props.navigation.navigate("RouteCreator", {route: routeTitle});
-    };
-
-    cancelPopUp = () => {
-        this.setState(
-            {popUp: null})
-    };
-
-    createPopUp = () => {
-        this.setState(
-            {popUp: new CreatePopUp()});
-    };
-
     render() {
-        let popUp = this.state.popUp;
         let routes = this.state.routes;
 
         return (
             <View style={styles.container}>
                 <View style={styles.iconButton}>
                     <IconButton
-                        onPress={this.createPopUp}
+                        onPress={() => this.props.navigation.navigate("RouteCreator", {popUp: true})}
                         icon='plus'
                         size={40}/>
                 </View>
 
-                {popUp ?
-                    (<CreatePopUp title="Ny rute" callback={this.addRoute} cancel={this.cancelPopUp}/>) : null
-                }
                 {routes !== null ?
                     routes.map(routeTitle => (
                         (<View style={styles.routeDiv}>

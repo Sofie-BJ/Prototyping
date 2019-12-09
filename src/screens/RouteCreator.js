@@ -6,19 +6,20 @@ import {IconButton, Colors} from 'react-native-paper';
 import RoutePoint from '../RoutePoint';
 
 import Route from "../Route";
-import MapView, {Marker, Callout} from "react-native-maps";
+import MapView, {Marker} from "react-native-maps";
+import CreatePopUp from "../components/CreatePopUp";
 
 export default class RouteCreator extends React.Component {
     constructor(props) {
         super(props);
-        this.route = new Route(this.props.navigation.getParam('route'));
+        this.route = null;
 
         this.state = {
             location: null,
             errorMessage: null,
             region: null,
             marker: null,
-            popUp: null,
+            popUp: this.props.navigation.getParam("popUp"),
             route: this.route
         };
     }
@@ -70,6 +71,24 @@ export default class RouteCreator extends React.Component {
         }
     };
 
+    createRoute = (routeTitle) => {
+        let newRoute = new Route(routeTitle);
+        this.setState({
+            route: newRoute,
+            popUp: null
+        });
+    };
+
+    cancelPopUp = () => {
+        this.setState(
+            {popUp: null})
+    };
+
+    createPopUp = () => {
+        this.setState(
+            {popUp: new CreatePopUp()});
+    };
+
     setRoutePointInfo = (routeTitle, image) => {
         let coordinate = {
             latitude: this.state.location.coords.latitude,
@@ -98,7 +117,8 @@ export default class RouteCreator extends React.Component {
 
     render() {
         let popUp = this.state.popUp;
-
+        let route = this.state.route;
+        
         return (
             <View style={styles.container}>
                 {this.state.region ?
@@ -108,15 +128,19 @@ export default class RouteCreator extends React.Component {
 
                         <Marker coordinate={this.state.location.coords}/>
 
-                        {this.state.route.routePoints.map((routepoint, index) =>
-                            (
+                        {route !== null ?
+                            route.routePoints.map((routepoint, index) => (
                                 <Marker
                                     key={index}
                                     coordinate={routepoint._coordinate}
                                     pinColor={'blue'}/>
-                            ))}
+                            )) : null
+                        }
 
                     </MapView>) : <Text>Venter på mine koordinater...</Text>
+                }
+                {popUp ?
+                    (<CreatePopUp title="Ny rute" callback={this.createRoute} cancel={this.cancelPopUp}/>) : null
                 }
 
                 <View style={styles.bottom}>
@@ -124,11 +148,14 @@ export default class RouteCreator extends React.Component {
                         size={40}
                         icon="camera"
                         onPress={() => this.props.navigation.navigate("CameraScreen", {callback: this.setRoutePointInfo})}/>
-                    {this.state.route.routePoints.length !== 0 ?
-                        (<IconButton
-                            size={40}
-                            icon="check-circle"
-                            onPress={this.saveRoute}/>): null }
+                    {route !== null ?
+                        (route.routePoints.length !== 0 ?
+                                (<IconButton
+                                    size={40}
+                                    icon="check-circle"
+                                    onPress={this.saveRoute}/>) : null
+                        ) : null
+                    }
                 </View>
 
             </View>
