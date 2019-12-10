@@ -72,17 +72,21 @@ export default class HomeRoutes extends React.Component {
                     routes.map(routeTitle => (
                         (<View style={styles.routeDiv}>
                                 <Text style={styles.text}>{routeTitle}</Text>
+                                <View style={styles.goButton}>
                                 <IconButton
                                     onPress={() => this.props.navigation.navigate("GoRoute", {routeTitle: routeTitle})}
                                     icon="walk"
+                                    color="green"
                                     size={30}
-                                    style={styles.walkingMan}
                                 />
+                                 </View>
+                               
                                 <IconButton
                                     onPress={() => this.deleteRoute(routeTitle)}
                                     icon='delete'
                                     size={30}
                                 />
+                               
 
                             </View>
                         ))) : <Text>Henter ruter</Text>
@@ -109,6 +113,14 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 10,
     },
+
+    goButton: {
+        position: 'absolute',
+        right: 70,
+        top: '10%',
+        color: 'green'
+    },
+
     routeDiv: {
         flexDirection: 'row',
         alignItems: 'stretch',
