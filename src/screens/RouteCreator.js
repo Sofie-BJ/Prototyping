@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, Dimensions, Image, TextInput, AsyncStorage} from 'react-native';
+import {StyleSheet, Text, View, Dimensions, Image, TextInput, AsyncStorage, ActivityIndicator} from 'react-native';
 import * as Permissions from 'expo-permissions';
 import * as Location from "expo-location";
 import {IconButton, Colors} from 'react-native-paper';
@@ -8,6 +8,7 @@ import RoutePoint from '../RoutePoint';
 import Route from "../Route";
 import MapView, {Marker} from "react-native-maps";
 import CreatePopUp from "../components/CreatePopUp";
+import Loader from "../components/Loader";
 
 export default class RouteCreator extends React.Component {
     constructor(props) {
@@ -20,7 +21,8 @@ export default class RouteCreator extends React.Component {
             region: null,
             marker: null,
             popUp: this.props.navigation.getParam("popUp"),
-            route: this.route
+            route: this.route,
+            visible: false
         };
     }
 
@@ -107,8 +109,11 @@ export default class RouteCreator extends React.Component {
 
     saveRoute = async () => {
         try {
-            let routeTitle = this.state.route.props;
+            let routeTitle = this.state.route.title;
             await AsyncStorage.setItem(routeTitle, JSON.stringify(this.state.route));
+            this.setState({
+                visible: true
+            })
         } catch (e) {
             console.log("RouteCreator failed to save route: " + e.message)
         }
@@ -118,7 +123,7 @@ export default class RouteCreator extends React.Component {
     render() {
         let popUp = this.state.popUp;
         let route = this.state.route;
-        
+
         return (
             <View style={styles.container}>
                 {this.state.region ?
@@ -142,6 +147,8 @@ export default class RouteCreator extends React.Component {
                 {popUp ?
                     (<CreatePopUp title="Ny rute" callback={this.createRoute} cancel={this.cancelPopUp}/>) : null
                 }
+                <Loader visible={this.state.visible}/>
+
 
                 <View style={styles.bottom}>
                     <IconButton
@@ -156,6 +163,8 @@ export default class RouteCreator extends React.Component {
                                     onPress={this.saveRoute}/>) : null
                         ) : null
                     }
+
+
                 </View>
 
             </View>
