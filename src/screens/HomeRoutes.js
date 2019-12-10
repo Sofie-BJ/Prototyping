@@ -104,8 +104,6 @@ const styles = StyleSheet.create({
     },
     iconButton: {
         justifyContent: 'center',
-        borderColor: 'black',
-        borderWidth: 1,
         backgroundColor: '#FFFFFF',
         borderRadius: 80,
         position: 'absolute',
@@ -127,6 +125,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 2,
         elevation: 1,
+        margin: 5
     },
     text: {
         fontSize: 24,
