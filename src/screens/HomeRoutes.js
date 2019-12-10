@@ -75,11 +75,13 @@ export default class HomeRoutes extends React.Component {
                                 <IconButton
                                     onPress={() => this.props.navigation.navigate("GoRoute", {routeTitle: routeTitle})}
                                     icon="walk"
+                                    color='green'
                                     size={30}
                                     style={styles.walkingMan}
                                 />
                                 <IconButton
                                     onPress={() => this.deleteRoute(routeTitle)}
+                                    
                                     icon='delete'
                                     size={30}
                                 />
@@ -108,19 +110,28 @@ const styles = StyleSheet.create({
         borderRadius: 80,
         position: 'absolute',
         bottom: 10,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 1,
     },
     routeDiv: {
         flexDirection: 'row',
-        alignItems: 'stretch',
+        //alignItems: 'stretch',
         backgroundColor: 'white',
         justifyContent: 'space-between',
-        padding: 6,
-        margin: 5,
         borderRadius: 10,
         width: '100%',
+        alignItems: 'center',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 1,
     },
     text: {
         fontSize: 24,
         textAlignVertical: 'center',
+        marginLeft: 10
+        
     }
 });
