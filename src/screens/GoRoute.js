@@ -88,8 +88,8 @@ export default class GoRoute extends React.Component {
 
                                     <Callout style={styles.plainView}>
                                         <View>
-                                            <Text>{routePoint._title}</Text>
-                                            <Image style={{width: 100, height: 100}} source={{uri: routePoint._image}}/>
+                                            <Text style={styles.text}>{routePoint._title}</Text>
+                                            <Image style={styles.IMG} source={{uri: routePoint._image}}/>
                                         </View>
                                     </Callout>
                                 </Marker>))
@@ -127,7 +127,21 @@ const styles = StyleSheet.create({
     },
     plainView: {
         width: 300,
+
     },
+    text: {
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 24
+    },
+    IMG: {
+        width: 296, 
+        height: 300,
+        borderWidth: 1,
+        borderColor: 'black',
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
 
 
 });
