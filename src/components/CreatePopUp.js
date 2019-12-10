@@ -19,7 +19,7 @@ export default class CreatePopUp extends React.Component {
                                   onChangeText={title => this.title = title}/>
                     <Dialog.Button label="Cancel" onPress={() => this.props.cancel()}/>
                     <Dialog.Button label="Save" onPress={() => {
-                        if (this.title !== "") {
+                        if (this.title !== null) {
                             this.props.callback(this.title)
                         }
                     }}/>
