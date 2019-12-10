@@ -70,7 +70,8 @@ export default class HomeRoutes extends React.Component {
 
                 {routes !== null ?
                     routes.map(routeTitle => (
-                        (<View style={styles.routeDiv}>
+                        (<View  key={routeTitle + 1}
+                                style={styles.routeDiv}>
                                 <Text style={styles.text}>{routeTitle}</Text>
                                 <View style={styles.goButton}>
                                 <IconButton
@@ -83,6 +84,7 @@ export default class HomeRoutes extends React.Component {
                                
                                 <IconButton
                                     onPress={() => this.deleteRoute(routeTitle)}
+                                    
                                     icon='delete'
                                     size={30}
                                 />
@@ -106,12 +108,14 @@ const styles = StyleSheet.create({
     },
     iconButton: {
         justifyContent: 'center',
-        borderColor: 'black',
-        borderWidth: 1,
         backgroundColor: '#FFFFFF',
         borderRadius: 80,
         position: 'absolute',
         bottom: 10,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 1,
     },
 
     goButton: {
@@ -123,16 +127,22 @@ const styles = StyleSheet.create({
 
     routeDiv: {
         flexDirection: 'row',
-        alignItems: 'stretch',
+        //alignItems: 'stretch',
         backgroundColor: 'white',
         justifyContent: 'space-between',
-        padding: 6,
-        margin: 5,
         borderRadius: 10,
         width: '100%',
+        alignItems: 'center',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 1,
+        margin: 5
     },
     text: {
         fontSize: 24,
         textAlignVertical: 'center',
+        marginLeft: 10
+        
     }
 });

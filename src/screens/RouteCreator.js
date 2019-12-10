@@ -196,10 +196,12 @@ const styles = StyleSheet.create({
         position: 'absolute',
         alignItems: 'center',
         borderRadius: 80,
-        backgroundColor: '#FFFFFF80',
-        borderColor: 'black',
-        borderWidth: 1,
+        backgroundColor: '#d3e0e370',
         flexDirection: 'row',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 1,
 
     },
     plainView: {
