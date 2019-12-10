@@ -4,10 +4,11 @@ import Route from "../Route";
 import CreatePopUp from "../components/CreatePopUp";
 import {IconButton, Colors} from 'react-native-paper';
 
+
 export default class HomeRoutes extends React.Component {
 
     static navigationOptions = {
-        title: 'Ruter',
+        title: 'Dine ruter'
     };
 
     constructor(props) {
@@ -58,7 +59,13 @@ export default class HomeRoutes extends React.Component {
                                 <IconButton
                                     onPress={() => this.props.navigation.navigate("GoRoute", {routeTitle: routeTitle})}
                                     icon="walk"
+                                    size={30}
                                     style={styles.walkingMan}
+                                />
+                                <IconButton
+                                    onPress={() => this.props.navigation.navigate("GoRoute", {routeTitle: routeTitle})}
+                                    icon='delete'
+                                    size={30}
                                 />
 
                             </View>
@@ -84,6 +91,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         backgroundColor: '#FFFFFF',
         borderRadius: 80,
+        position: 'absolute',
+        bottom: 10
 
     },
     routeDiv: {
@@ -93,10 +102,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         padding: 6,
         margin: 5,
-        borderRadius: 10
+        borderRadius: 10,
+        width: '100%'
     },
     text: {
         fontSize: 24,
-        top: 7,
+        textAlignVertical: 'center',
     }
 });
