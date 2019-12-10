@@ -70,13 +70,13 @@ export default class HomeRoutes extends React.Component {
 
                 {routes !== null ?
                     routes.map(routeTitle => (
-                        (<View style={styles.routeDiv}>
+                        (<View  key={routeTitle + 1}
+                                style={styles.routeDiv}>
                                 <Text style={styles.text}>{routeTitle}</Text>
                                 <IconButton
                                     onPress={() => this.props.navigation.navigate("GoRoute", {routeTitle: routeTitle})}
                                     icon="walk"
                                     size={30}
-                                    style={styles.walkingMan}
                                 />
                                 <IconButton
                                     onPress={() => this.deleteRoute(routeTitle)}
