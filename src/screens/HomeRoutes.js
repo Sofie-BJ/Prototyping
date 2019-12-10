@@ -92,7 +92,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderRadius: 80,
         position: 'absolute',
-        bottom: 10
+        bottom: 10,
+
 
     },
     routeDiv: {
@@ -103,7 +104,8 @@ const styles = StyleSheet.create({
         padding: 6,
         margin: 5,
         borderRadius: 10,
-        width: '100%'
+        width: '100%',
+    
     },
     text: {
         fontSize: 24,

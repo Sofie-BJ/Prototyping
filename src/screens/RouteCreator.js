@@ -60,7 +60,9 @@ export default class RouteCreator extends React.Component {
     }
 
     componentWillUnmount() {
-        this.watchid.remove();
+        this.watchid.then(e => {
+            e.remove()
+        })
     }
 
     async AskPermission() {
@@ -84,6 +86,7 @@ export default class RouteCreator extends React.Component {
     cancelPopUp = () => {
         this.setState(
             {popUp: null})
+        this.props.navigation.navigate("HomeRoutes")
     };
 
     createPopUp = () => {
