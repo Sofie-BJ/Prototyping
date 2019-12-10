@@ -60,9 +60,7 @@ export default class RouteCreator extends React.Component {
     }
 
     componentWillUnmount() {
-        this.watchid.then(e => {
-            e.remove()
-        })
+        this.watchid.remove();
     }
 
     async AskPermission() {
