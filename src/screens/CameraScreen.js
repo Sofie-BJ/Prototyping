@@ -168,7 +168,6 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         height: 65,
         width: 65,
-        borderWidth: 8,
         borderRadius: 100,
         backgroundColor: 'white',
         borderWidth: 1,
