@@ -95,6 +95,14 @@ export default class GoRoute extends React.Component {
                                 </Marker>))
                             }
 
+                                 
+
+                        <MapView.Polyline
+                        coordinates={this.route.routePoints.map((routePoint) => routePoint._coordinate)}
+                        strokeWidth={5}
+                        />
+                        
+
                         </MapView>) : null)
                     : <Text>Venter på rute</Text>}
 

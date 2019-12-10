@@ -97,20 +97,17 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#d3e0e3',
-        justifyContent: 'center',
         alignItems: 'center',
-        padding: 10,
-
+        padding: 10
     },
     iconButton: {
+        justifyContent: 'center',
         borderColor: 'black',
         borderWidth: 1,
         backgroundColor: '#FFFFFF',
         borderRadius: 80,
         position: 'absolute',
         bottom: 10,
-
-
     },
     routeDiv: {
         flexDirection: 'row',
@@ -121,7 +118,6 @@ const styles = StyleSheet.create({
         margin: 5,
         borderRadius: 10,
         width: '100%',
-
     },
     text: {
         fontSize: 24,
