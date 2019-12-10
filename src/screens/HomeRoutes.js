@@ -6,6 +6,10 @@ import {IconButton, Colors} from 'react-native-paper';
 
 export default class HomeRoutes extends React.Component {
 
+    static navigationOptions = {
+        title: 'Ruter',
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -29,6 +33,7 @@ export default class HomeRoutes extends React.Component {
                 <View style={styles.iconButton}>
                     <IconButton
                         onPress={() => this.props.navigation.navigate("RouteCreator", {popUp: true})}
+                        
                         icon='plus'
                         size={40}/>
                 </View>
@@ -56,13 +61,17 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#d3e0e3',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
+
     },
     iconButton: {
-        borderRadius: 40,
-        backgroundColor: '#FFFFFF80',
-        alignSelf: "flex-end",
-        justifyContent: 'flex-end',
-        margin: 10,
+        borderColor: 'black',
+        borderWidth: 1,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 80,
+
     },
     routeDiv: {
         flexDirection: 'row',
@@ -75,6 +84,6 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 24,
-        top: 5,
+        top: 7,
     }
 });

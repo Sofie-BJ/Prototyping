@@ -7,6 +7,7 @@ import * as Permissions from 'expo-permissions';
 import {IconButton, Colors} from 'react-native-paper';
 import CreatePopUp from "../components/CreatePopUp";
 
+
 export default class CameraScreen extends React.Component {
 
     static navigationOptions = {header: null};
@@ -105,8 +106,9 @@ export default class CameraScreen extends React.Component {
                 <View style={styles.bottomBar}>
                     {this.state.bottomBar? (
                         <View style={styles.toolbar}>
-                            <Button
-                                title="Retake"
+                            <IconButton
+                                size={40}
+                                icon="autorenew"
                                 onPress={() => this.setState({showPicture: false, isShown: false})}
                             />
 
@@ -160,20 +162,24 @@ const styles = StyleSheet.create({
         flex: 0.2,
         flexDirection: 'row',
         paddingBottom: 5,
-        backgroundColor: 'white',
+        backgroundColor: '#d3e0e3',
         justifyContent: 'space-around',
         alignItems: 'center',
     },
     snapButton: {
-        borderColor: 'rgba(0, 0, 0, 0.6)',
-        height: 50,
-        width: 50,
-        borderWidth: 1,
+        borderColor: 'black',
+        height: 65,
+        width: 65,
+        borderWidth: 8,
         borderRadius: 100,
+        backgroundColor: 'white',
+        borderWidth: 1,
     },
     toolbar: {
         flexDirection: 'row',
-        backgroundColor: "#FFFFFF80",
-        borderRadius: 40
+        backgroundColor: "white",
+        borderRadius: 40,
+        borderColor: 'black',
+        borderWidth: 1
     }
 })

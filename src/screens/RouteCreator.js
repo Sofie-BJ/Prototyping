@@ -185,7 +185,11 @@ const styles = StyleSheet.create({
         bottom: 10,
         position: 'absolute',
         alignItems: 'center',
-        borderRadius: 40,
+        borderRadius: 80,
+        backgroundColor: '#FFFFFF80',
+        borderColor: 'black',
+        borderWidth: 1,
+        flexDirection: 'row',
 
     },
     plainView: {
