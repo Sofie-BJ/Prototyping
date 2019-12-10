@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, Button, CameraRoll } from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, Text, View, TouchableOpacity, Image, Button, CameraRoll} from 'react-native';
 import Constants from 'expo-constants';
-import { Camera } from 'expo-camera';
+import {Camera} from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 
 import {IconButton, Colors} from 'react-native-paper';
@@ -17,13 +17,13 @@ export default class CameraScreen extends React.Component {
         this.state = {
             hasCameraPermissions: false,
             ratio: '16:9',
-            bottomBar: false,
+            retakePicture: false,
             popUp: null
         };
     }
 
     async componentDidMount() {
-        let { status } = await Permissions.askAsync(Permissions.CAMERA);
+        let {status} = await Permissions.askAsync(Permissions.CAMERA);
         await Permissions.askAsync(Permissions.CAMERA_ROLL);
         this.setState({
             hasCameraPermissions: status === 'granted',
@@ -32,26 +32,32 @@ export default class CameraScreen extends React.Component {
         });
     }
 
-/*
-    collectPictureSizes = async () => {
-        ratios = await this.getRatios();
+    static navigationOptions = {
+        title: 'Tag et billede til din rute',
+    };
 
-    }
+    /*
+        collectPictureSizes = async () => {
+            ratios = await this.getRatios();
 
-    getRatios = async () => {
-        const ratios = await this.camera.getSupportedRatiosAsync();
-        return ratios;
-    }
-*/
+        }
+
+        getRatios = async () => {
+            const ratios = await this.camera.getSupportedRatiosAsync();
+            return ratios;
+        }
+    */
 
     takePicture = () => {
         if (this.camera) {
             this.camera.takePictureAsync(
-                { onPictureSaved: this.onPictureSaved })
-                .catch(() => {console.log("Couldn't save picture")})
+                {onPictureSaved: this.onPictureSaved})
+                .catch(() => {
+                    console.log("Couldn't save picture")
+                })
             // setState er en asynkron funktion -- await betyder at den venter med at gå videre til den viser true
             this.setState({
-                bottomBar: true
+                retakePicture: true
             })
         }
     };
@@ -86,7 +92,7 @@ export default class CameraScreen extends React.Component {
                     <View style={styles.cameraContainer}>
                         {this.state.showPicture ? (
                             <Image
-                                source={{ uri: this.state.pictureUri }}
+                                source={{uri: this.state.pictureUri}}
                                 style={styles.camera}/>
                         ) : (
                             <Camera
@@ -100,18 +106,11 @@ export default class CameraScreen extends React.Component {
                             />
                         )}
                     </View>
-                ) : <Text>Kameraet må ikke bruges i appen</Text>
-                }
+                ) : <Text>Kameraet må ikke bruges i appen</Text>}
 
                 <View style={styles.bottomBar}>
-                    {this.state.bottomBar? (
+                    {this.state.retakePicture ? (
                         <View style={styles.toolbar}>
-                            <IconButton
-                                size={40}
-                                icon="autorenew"
-                                onPress={() => this.setState({showPicture: false, isShown: false})}
-                            />
-
                             <IconButton
                                 size={40}
                                 icon="check-circle"
@@ -122,20 +121,19 @@ export default class CameraScreen extends React.Component {
                         <TouchableOpacity
                             style={styles.snapButton}
                             onPress={this.takePicture}/>
-                    )
-                    }
+                    )}
 
-                    {this.state.popUp ?
-                        (<CreatePopUp title="Nyt punkt på din rute" callback={this.saveRoutePoint} cancel={this.cancelPopUp}/>) : null
-                    }
                 </View>
 
-            </View >
+                {this.state.popUp ?
+                    (<CreatePopUp title="Nyt punkt på din rute" callback={this.saveRoutePoint}
+                                  cancel={this.cancelPopUp}/>) : null
+                }
+
+            </View>
         );
     }
 }
-
-
 
 const styles = StyleSheet.create({
     container: {

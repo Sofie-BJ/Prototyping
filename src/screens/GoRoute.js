@@ -4,7 +4,7 @@ import * as Permissions from 'expo-permissions';
 import * as Location from "expo-location";
 import {IconButton, Colors} from 'react-native-paper';
 
-import MapView, {Marker, Callout} from "react-native-maps";
+import MapView, {Marker, Callout, Polyline} from "react-native-maps";
 
 export default class GoRoute extends React.Component {
     constructor(props) {
@@ -78,8 +78,9 @@ export default class GoRoute extends React.Component {
                     (this.state.region ?
                         (<MapView
                             style={styles.mapStyle}
-                            initialRegion={this.state.region}>
-
+                            initialRegion={this.state.region}
+                            showsUserLocation={true}
+                        >
                             {this.route.routePoints.map((routePoint, index) => (
                                 <Marker
                                     key={index}
@@ -88,12 +89,12 @@ export default class GoRoute extends React.Component {
                                     <Callout style={styles.plainView}>
                                         <View>
                                             <Text>{routePoint._title}</Text>
-                                            <Image style={{width:100, height: 100}} source={{uri:routePoint._image}}/>
+                                            <Image style={{width: 100, height: 100}} source={{uri: routePoint._image}}/>
                                         </View>
                                     </Callout>
-                                </Marker>
+                                </Marker>))
+                            }
 
-                            ))}
                         </MapView>) : null)
                     : <Text>Venter på rute</Text>}
 

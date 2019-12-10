@@ -15,7 +15,20 @@ export default class HomeRoutes extends React.Component {
         this.state = {
             routes: null,
         };
+    }
 
+    componentDidMount() {
+        const { navigation } = this.props;
+        this.focusListener = navigation.addListener('didFocus', () => {
+           this.getAllRoutes();
+        });
+    }
+
+    componentWillUnmount() {
+        this.focusListener.remove();
+    }
+
+    getAllRoutes = () => {
         AsyncStorage.getAllKeys().then(response => {
             if (response !== null) {
                 this.setState({
@@ -23,7 +36,8 @@ export default class HomeRoutes extends React.Component {
                 })
             }
         })
-    }
+    };
+
 
     render() {
         let routes = this.state.routes;
@@ -32,8 +46,7 @@ export default class HomeRoutes extends React.Component {
             <View style={styles.container}>
                 <View style={styles.iconButton}>
                     <IconButton
-                        onPress={() => this.props.navigation.navigate("RouteCreator", {popUp: true})}
-                        
+                        onPress={() => this.props.navigation.navigate("RouteCreator", {popUp: new CreatePopUp()})}
                         icon='plus'
                         size={40}/>
                 </View>
