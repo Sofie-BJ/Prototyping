@@ -155,12 +155,14 @@ export default class RouteCreator extends React.Component {
                     <IconButton
                         size={40}
                         icon="camera"
+                        color="white"
                         onPress={() => this.props.navigation.navigate("CameraScreen", {callback: this.setRoutePointInfo})}/>
                     {route !== null ?
                         (route.routePoints.length !== 0 ?
                                 (<IconButton
                                     size={40}
                                     icon="check-circle"
+                                    color="white"
                                     onPress={this.saveRoute}/>) : null
                         ) : null
                     }
@@ -196,14 +198,11 @@ const styles = StyleSheet.create({
         position: 'absolute',
         alignItems: 'center',
         borderRadius: 80,
-        backgroundColor: '#d3e0e370',
+        backgroundColor: '#6EFAC298',
         flexDirection: 'row',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.8,
-        shadowRadius: 2,
-        elevation: 1,
-
+        
     },
+
     plainView: {
         width: 300,
     },

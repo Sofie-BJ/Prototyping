@@ -3,6 +3,7 @@ import {StyleSheet, Text, View, Dimensions, Image, AsyncStorage} from 'react-nat
 import * as Permissions from 'expo-permissions';
 import * as Location from "expo-location";
 import {IconButton, Colors} from 'react-native-paper';
+import Animation from "../components/Animation";
 
 import MapView, {Marker, Callout, Polyline} from "react-native-maps";
 
@@ -71,6 +72,7 @@ export default class GoRoute extends React.Component {
         }
     }
 
+    
     render() {
         return (
             <View style={styles.container}>
@@ -104,7 +106,7 @@ export default class GoRoute extends React.Component {
                         
 
                         </MapView>) : null)
-                    : <Text>Venter på rute</Text>}
+                    : <Animation></Animation>}
 
             </View>
         )
@@ -134,7 +136,8 @@ const styles = StyleSheet.create({
         position: 'absolute'
     },
     plainView: {
-        width: 300,
+        width: 200,
+        height:200,
 
     },
     text: {
@@ -143,8 +146,8 @@ const styles = StyleSheet.create({
         fontSize: 24
     },
     IMG: {
-        width: 296, 
-        height: 300,
+        width: 150, 
+        height: 150,
         borderWidth: 1,
         borderColor: 'black',
         justifyContent: 'center',

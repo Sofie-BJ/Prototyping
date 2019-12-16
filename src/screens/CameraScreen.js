@@ -55,7 +55,7 @@ export default class CameraScreen extends React.Component {
                 .catch(() => {
                     console.log("Couldn't save picture")
                 })
-            // setState er en asynkron funktion -- await betyder at den venter med at gå videre til den viser true
+
             this.setState({
                 retakePicture: true
             })
@@ -170,13 +170,13 @@ const styles = StyleSheet.create({
         width: 65,
         borderRadius: 100,
         backgroundColor: 'white',
-        borderWidth: 1,
+        borderWidth: 2,
     },
     toolbar: {
         flexDirection: 'row',
         backgroundColor: "white",
         borderRadius: 40,
         borderColor: 'black',
-        borderWidth: 1
+        borderWidth: 2
     }
 })
