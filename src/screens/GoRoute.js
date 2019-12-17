@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, Dimensions, Image, AsyncStorage} from 'react-native';
+import {StyleSheet, Text, View, Dimensions, Image, AsyncStorage, Modal, Button, Wrapper} from 'react-native';
 import * as Permissions from 'expo-permissions';
 import * as Location from "expo-location";
 import {IconButton, Colors} from 'react-native-paper';
@@ -17,6 +17,8 @@ export default class GoRoute extends React.Component {
             errorMessage: null,
             region: null,
             marker: null,
+            modalVisible: false,
+            activeMarker: null
         };
 
         AsyncStorage.getItem(routeTitle).then(response => {
@@ -72,7 +74,10 @@ export default class GoRoute extends React.Component {
         }
     }
 
-    
+    setModalVisible = (visible) => {
+        this.setState({modalVisible: visible})
+    };
+
     render() {
         return (
             <View style={styles.container}>
@@ -86,25 +91,40 @@ export default class GoRoute extends React.Component {
                             {this.route.routePoints.map((routePoint, index) => (
                                 <Marker
                                     key={index}
-                                    coordinate={routePoint._coordinate}>
-
-                                    <Callout style={styles.plainView}>
-                                        <View>
-                                            <Text style={styles.text}>{routePoint._title}</Text>
-                                            <Image style={styles.IMG} source={{uri: routePoint._image}}/>
-                                        </View>
-                                    </Callout>
+                                    coordinate={routePoint._coordinate}
+                                    onPress={() => {
+                                        this.setModalVisible(true)
+                                        this.setState({activeMarker: routePoint})
+                                    }}>
                                 </Marker>))
                             }
 
-                        <MapView.Polyline
-                        coordinates={this.route.routePoints.map((routePoint) => routePoint._coordinate)}
-                        strokeWidth={5}
-                        />
-                        
+                            <MapView.Polyline
+                                coordinates={this.route.routePoints.map((routePoint) => routePoint._coordinate)}
+                                strokeWidth={5}
+                            />
 
                         </MapView>) : null)
                     : <Animation></Animation>}
+
+                {this.state.modalVisible ?
+                    (<Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={this.state.modalVisible}>
+
+                            <View style={styles.modal}>
+                                <Text style={styles.text}>{this.state.activeMarker._title}</Text>
+                                <Image style={styles.IMG} source={{uri: this.state.activeMarker._image}}/>
+
+                                <Button
+                                    onPress={() => {
+                                        this.setModalVisible(!this.state.modalVisible);
+                                    }}
+                                    title="Close">
+                                </Button>
+                            </View>
+                    </Modal>) : null}
 
             </View>
         )
@@ -135,7 +155,7 @@ const styles = StyleSheet.create({
     },
     plainView: {
         width: 200,
-        height:200,
+        height: 200,
 
     },
     text: {
@@ -144,13 +164,27 @@ const styles = StyleSheet.create({
         fontSize: 24
     },
     IMG: {
-        width: 150, 
+        width: 150,
         height: 150,
         borderWidth: 1,
         borderColor: 'black',
         justifyContent: 'center',
         alignItems: 'center',
-    }
+    },
+    modal: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor : "#FFF",
+        height: 250 ,
+        width: 250,
+        borderRadius:10,
+        borderWidth: 1,
+        borderColor: '#fff',
+        marginTop: 80,
+        marginLeft: 40,
+
+    },
+
 
 
 });
