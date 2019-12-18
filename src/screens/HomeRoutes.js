@@ -183,7 +183,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlignVertical: 'center',
         marginLeft: 10,
-        fontFamily: 'monospace',
         fontWeight: '500',
         textTransform: 'uppercase',
         color: 'black',
