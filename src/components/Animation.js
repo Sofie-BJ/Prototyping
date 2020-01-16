@@ -5,7 +5,6 @@ import LottieView from "lottie-react-native";
 
 export default class Animation extends React.Component {
 
-
   render() {
     return (
       <View style={styles.container}>
@@ -14,8 +13,6 @@ export default class Animation extends React.Component {
             autoPlay
             loop
             />
-
-
       </View>
     )
   }

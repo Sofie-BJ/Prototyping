@@ -18,7 +18,7 @@ export default class CameraScreen extends React.Component {
             hasCameraPermissions: false,
             ratio: '16:9',
             retakePicture: false,
-            popUp: null
+            popUp: false
         };
     }
 
@@ -71,18 +71,19 @@ export default class CameraScreen extends React.Component {
 
     saveRoutePoint = (routePointTitle) => {
         this.setState({popUp: null});
-        this.props.navigation.getParam('callback')(routePointTitle, this.state.pictureUri);
+        let func = this.props.navigation.getParam('callback');
+        func(routePointTitle, this.state.pictureUri);
         this.props.navigation.goBack();
     };
 
     cancelPopUp = () => {
         this.setState(
-            {popUp: null})
+            {popUp: false})
     };
 
     createPopUp = () => {
         this.setState(
-            {popUp: new CreatePopUp()});
+            {popUp: true});
     };
 
     render() {
@@ -126,7 +127,7 @@ export default class CameraScreen extends React.Component {
                 </View>
 
                 {this.state.popUp ?
-                    (<CreatePopUp title="Nyt punkt på din rute" callback={this.saveRoutePoint}
+                    (<CreatePopUp dialogTitle="Nyt punkt på din rute" callback={this.saveRoutePoint}
                                   cancel={this.cancelPopUp}/>) : null
                 }
 

@@ -74,7 +74,7 @@ export default class RouteCreator extends React.Component {
     };
 
     createRoute = (routeTitle) => {
-        let newRoute = new Route(routeTitle);
+        let newRoute = new Route({routeTitle: routeTitle});
         this.setState({
             route: newRoute,
             popUp: null
@@ -83,13 +83,8 @@ export default class RouteCreator extends React.Component {
 
     cancelPopUp = () => {
         this.setState(
-            {popUp: null})
+            {popUp: null});
         this.props.navigation.navigate("HomeRoutes")
-    };
-
-    createPopUp = () => {
-        this.setState(
-            {popUp: new CreatePopUp()});
     };
 
     setRoutePointInfo = (routeTitle, image) => {
@@ -146,7 +141,7 @@ export default class RouteCreator extends React.Component {
                     </MapView>) : <Text>Venter på mine koordinater...</Text>
                 }
                 {popUp ?
-                    (<CreatePopUp title="Ny rute" callback={this.createRoute} cancel={this.cancelPopUp}/>) : null
+                    (<CreatePopUp dialogTitle="Ny rute" callback={this.createRoute} cancel={this.cancelPopUp}/>) : null
                 }
                 <Loader visible={this.state.visible}/>
 

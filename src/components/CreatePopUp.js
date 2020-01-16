@@ -1,31 +1,28 @@
 import React from 'react';
-import {StyleSheet, Text, View, Button, TouchableOpacity} from 'react-native';
+import {View} from 'react-native';
 
 import Dialog from "react-native-dialog";
 
-export default class CreatePopUp extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.title = null;
-    }
-
-    render() {
+export default function CreatePopUp({dialogTitle, cancel, callback}) {
+    if (dialogTitle) {
+        let input = '';
         return (
             <View>
                 <Dialog.Container visible={true}>
-                    <Dialog.Title>{this.props.title}</Dialog.Title>
+                    <Dialog.Title>{dialogTitle}</Dialog.Title>
                     <Dialog.Input placeholder="Skriv titlen her"
-                                  onChangeText={title => this.title = title}/>
-                    <Dialog.Button label="Cancel" onPress={() => this.props.cancel()}/>
+                                  onChangeText={title => input = title}/>
+                    <Dialog.Button label="Cancel" onPress={() => cancel()}/>
                     <Dialog.Button label="Save" onPress={() => {
-                        if (this.title !== null) {
-                            this.props.callback(this.title)
+                        if (input !== null) {
+                            callback(input)
                         }
                     }}/>
                 </Dialog.Container>
             </View>
         );
+    } else {
+        throw new Error("Dialog title missing")
     }
 }
 
