@@ -2,22 +2,17 @@ import React from "react";
 import {StyleSheet, View} from 'react-native';
 import LottieView from "lottie-react-native";
 
-
-export default class Animation extends React.Component {
-
-  render() {
+export default function Animation() {
     return (
-      <View style={styles.container}>
-          <LottieView
-            source={require("../../assets/lottie-walking.json")}
-            autoPlay
-            loop
+        <View style={styles.container}>
+            <LottieView
+                source={require("../../assets/lottie-walking.json")}
+                autoPlay
+                loop
             />
-      </View>
+        </View>
     )
-  }
 }
-
 
 const styles = StyleSheet.create({
     container: {
@@ -30,5 +25,4 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
     },
-
-})
+});

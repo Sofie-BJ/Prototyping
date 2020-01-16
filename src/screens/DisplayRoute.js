@@ -1,39 +1,27 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, Dimensions, Image, AsyncStorage, Modal, Button, Wrapper} from 'react-native';
-import * as Permissions from 'expo-permissions';
+import {StyleSheet, Text, View, Dimensions, Image, Modal, Button} from 'react-native';
 import * as Location from "expo-location";
-import {IconButton, Colors} from 'react-native-paper';
 import Animation from "../components/Animation";
+import Map from "../components/Map";
 
-import MapView, {Marker, Callout, Polyline} from "react-native-maps";
-
-export default class GoRoute extends React.Component {
+export default class DisplayRoute extends React.Component {
     constructor(props) {
         super(props);
-        let routeTitle = this.props.navigation.getParam("routeTitle");
+        this.route = this.props.navigation.getParam("route");
 
         this.state = {
             location: null,
-            errorMessage: null,
             region: null,
-            marker: null,
             modalVisible: false,
             activeMarker: null
         };
-
-        AsyncStorage.getItem(routeTitle).then(response => {
-            this.route = JSON.parse(response);
-            console.log(this.route)
-        });
-
     }
 
     static navigationOptions = {
         title: 'Gå din rute'
     };
 
-    async componentDidMount() {
-        await this.AskPermission();
+    componentDidMount() {
         let option = {
             accuracy: Location.Accuracy.BestForNavigation,
             timeInterval: 1000,
@@ -48,11 +36,7 @@ export default class GoRoute extends React.Component {
                     longitude: currentPosition.coords.longitude,
                     latitudeDelta: 0.005,
                     longitudeDelta: 0.005
-                },
-                marker: {
-                    latlng: currentPosition.coords
-                },
-                error: null
+                }
             });
         };
         this.watchid = Location.watchPositionAsync(option, locationCallback);
@@ -64,18 +48,11 @@ export default class GoRoute extends React.Component {
         })
     }
 
-    async AskPermission() {
-        let {status} = await Permissions.askAsync(Permissions.LOCATION);
-        console.log('Asking for geo permission: ' + status);
-        if (status !== 'granted') {
-            this.setState({
-                errorMessage: 'Permission to access location was denied',
-            });
-        }
-    }
-
-    setModalVisible = (visible) => {
-        this.setState({modalVisible: visible})
+    setModalVisible = (routePoint) => {
+        this.setState({
+            activeMarker: routePoint,
+            modalVisible: true
+        });
     };
 
     render() {
@@ -83,29 +60,12 @@ export default class GoRoute extends React.Component {
             <View style={styles.container}>
                 {this.route ?
                     (this.state.region ?
-                        (<MapView
-                            style={styles.mapStyle}
-                            initialRegion={this.state.region}
-                            showsUserLocation={true}
-                        >
-                            {this.route.routePoints.map((routePoint, index) => (
-                                <Marker
-                                    key={index}
-                                    coordinate={routePoint._coordinate}
-                                    onPress={() => {
-                                        this.setModalVisible(true)
-                                        this.setState({activeMarker: routePoint})
-                                    }}>
-                                </Marker>))
-                            }
-
-                            <MapView.Polyline
-                                coordinates={this.route.routePoints.map((routePoint) => routePoint._coordinate)}
-                                strokeWidth={5}
-                            />
-
-                        </MapView>) : null)
-                    : <Animation></Animation>}
+                        <Map
+                            region={this.state.region}
+                            coords={this.state.location.coords}
+                            routePoints={this.route.routePoints}
+                            pressedMarker={this.setModalVisible}/>: null)
+                    : <Animation/>}
 
                 {this.state.modalVisible ?
                     (<Modal
@@ -119,7 +79,7 @@ export default class GoRoute extends React.Component {
 
                                 <Button
                                     onPress={() => {
-                                        this.setModalVisible(!this.state.modalVisible);
+                                        this.setState({modalVisible: false});
                                     }}
                                     title="Close">
                                 </Button>

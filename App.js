@@ -3,20 +3,20 @@ import CameraScreen from './src/screens/CameraScreen';
 
 import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
-import HomeRoutes from "./src/screens/HomeRoutes";
-import RouteCreator from "./src/screens/RouteCreator";
-import GoRoute from "./src/screens/GoRoute";
+import Home from "./src/screens/Home";
+import RouteModifier from "./src/screens/RouteModifier";
+import DisplayRoute from "./src/screens/DisplayRoute";
 
 //StackNavigator. Define screens and initialRouteName specifies start screen.
 const StackNavigator = createStackNavigator(
     {
-        HomeRoutes: HomeRoutes,
+        Home: Home,
         CameraScreen: CameraScreen,
-        RouteCreator: RouteCreator,
-        GoRoute: GoRoute,
+        RouteModifier: RouteModifier,
+        DisplayRoute: DisplayRoute,
     },
     {
-        initialRouteName: 'HomeRoutes'
+        initialRouteName: 'Home'
     });
 
 const AppContainer = createAppContainer(StackNavigator);

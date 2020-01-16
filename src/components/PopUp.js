@@ -3,7 +3,7 @@ import {View} from 'react-native';
 
 import Dialog from "react-native-dialog";
 
-export default function CreatePopUp({dialogTitle, cancel, callback}) {
+export default function PopUp({dialogTitle, cancelFunc, saveFunc}) {
     if (dialogTitle) {
         let input = '';
         return (
@@ -12,10 +12,10 @@ export default function CreatePopUp({dialogTitle, cancel, callback}) {
                     <Dialog.Title>{dialogTitle}</Dialog.Title>
                     <Dialog.Input placeholder="Skriv titlen her"
                                   onChangeText={title => input = title}/>
-                    <Dialog.Button label="Cancel" onPress={() => cancel()}/>
+                    <Dialog.Button label="Cancel" onPress={() => cancelFunc()}/>
                     <Dialog.Button label="Save" onPress={() => {
                         if (input !== null) {
-                            callback(input)
+                            saveFunc(input)
                         }
                     }}/>
                 </Dialog.Container>

@@ -1,32 +1,24 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image, Button, CameraRoll} from 'react-native';
+import {StyleSheet, View, TouchableOpacity, Image} from 'react-native';
 import Constants from 'expo-constants';
 import {Camera} from 'expo-camera';
-import * as Permissions from 'expo-permissions';
 
-import {IconButton, Colors} from 'react-native-paper';
-import CreatePopUp from "../components/CreatePopUp";
-
+import {IconButton} from 'react-native-paper';
+import PopUp from "../components/PopUp";
 
 export default class CameraScreen extends React.Component {
-
-    static navigationOptions = {header: null};
 
     constructor(props) {
         super(props);
         this.state = {
-            hasCameraPermissions: false,
             ratio: '16:9',
             retakePicture: false,
             popUp: false
         };
     }
 
-    async componentDidMount() {
-        let {status} = await Permissions.askAsync(Permissions.CAMERA);
-        await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    componentDidMount() {
         this.setState({
-            hasCameraPermissions: status === 'granted',
             showPicture: false,
             pictureUri: '',
         });
@@ -36,17 +28,6 @@ export default class CameraScreen extends React.Component {
         title: 'Tag et billede til din rute',
     };
 
-    /*
-        collectPictureSizes = async () => {
-            ratios = await this.getRatios();
-
-        }
-
-        getRatios = async () => {
-            const ratios = await this.camera.getSupportedRatiosAsync();
-            return ratios;
-        }
-    */
 
     takePicture = () => {
         if (this.camera) {
@@ -89,25 +70,23 @@ export default class CameraScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                {this.state.hasCameraPermissions ? (
-                    <View style={styles.cameraContainer}>
-                        {this.state.showPicture ? (
-                            <Image
-                                source={{uri: this.state.pictureUri}}
-                                style={styles.camera}/>
-                        ) : (
-                            <Camera
-                                ref={ref => {
-                                    this.camera = ref;
-                                }}
-                                style={styles.camera}
-                                type={Camera.Constants.Type.back}
-                                ratio={this.state.ratio}
-                                onCameraReady={this.collectPictureSizes}
-                            />
-                        )}
-                    </View>
-                ) : <Text>Kameraet må ikke bruges i appen</Text>}
+                <View style={styles.cameraContainer}>
+                    {this.state.showPicture ? (
+                        <Image
+                            source={{uri: this.state.pictureUri}}
+                            style={styles.camera}/>
+                    ) : (
+                        <Camera
+                            ref={ref => {
+                                this.camera = ref;
+                            }}
+                            style={styles.camera}
+                            type={Camera.Constants.Type.back}
+                            ratio={this.state.ratio}
+                            onCameraReady={this.collectPictureSizes}
+                        />
+                    )}
+                </View>
 
                 <View style={styles.bottomBar}>
                     {this.state.retakePicture ? (
@@ -127,8 +106,8 @@ export default class CameraScreen extends React.Component {
                 </View>
 
                 {this.state.popUp ?
-                    (<CreatePopUp dialogTitle="Nyt punkt på din rute" callback={this.saveRoutePoint}
-                                  cancel={this.cancelPopUp}/>) : null
+                    (<PopUp dialogTitle="Nyt punkt på din rute" saveFunc={this.saveRoutePoint}
+                            cancelFunc={this.cancelPopUp}/>) : null
                 }
 
             </View>
